@@ -1,8 +1,13 @@
-# map.py (фрагмент кода)
+# map.py
 import pygame
 import random
 from settings import *
 from powerups import PowerUp
+
+# Определение класса GameObject
+class GameObject:
+    def __init__(self, x, y, width, height):
+        self.rect = pygame.Rect(x, y, width, height)
 
 class GameMap:
     def __init__(self):
@@ -11,8 +16,7 @@ class GameMap:
         self.objects = []
         self.powerups = []
         self.generate_objects()
-        self.generate_score_powerups()  # Генерация обычных паверапов "score"
-        self.generate_special_powerups()  # Генерация особых паверапов
+        self.generate_powerups()
 
     def generate_objects(self):
         # Дорожная разметка
@@ -29,45 +33,18 @@ class GameMap:
             x = random.randint(0, MAP_WIDTH)
             y = random.randint(0, MAP_HEIGHT)
             pygame.draw.circle(self.image, (34, 139, 34), (x, y), 30)
-        # Препятствия
-        for _ in range(15):
-            x = random.randint(0, MAP_WIDTH)
-            y = random.randint(0, MAP_HEIGHT)
-            self.objects.append(GameObject(x, y, 30, 30))
+      
 
-    def generate_score_powerups(self):
-        """Генерация обычных паверапов 'score'."""
+    def generate_powerups(self):
+        types = ["score", "speed", "shield", "oil"]
         for _ in range(10):  # Обычные столбы с очками
             x = random.randint(0, MAP_WIDTH)
             y = random.randint(0, MAP_HEIGHT)
             self.powerups.append(PowerUp("score", x, y))
-
-    def generate_speed_powerups(self):
-        """Генерация паверапов 'speed'."""
-        for _ in range(3):  # Генерируем 3 паверапа скорости
+        for t in ["speed", "shield", "oil"]:  # Особые паверапы
             x = random.randint(0, MAP_WIDTH)
             y = random.randint(0, MAP_HEIGHT)
-            self.powerups.append(PowerUp("speed", x, y))
-
-    def generate_shield_powerups(self):
-        """Генерация паверапов 'shield'."""
-        for _ in range(2):  # Генерируем 2 паверапа щита
-            x = random.randint(0, MAP_WIDTH)
-            y = random.randint(0, MAP_HEIGHT)
-            self.powerups.append(PowerUp("shield", x, y))
-
-    def generate_oil_powerups(self):
-        """Генерация паверапов 'oil'."""
-        for _ in range(2):  # Генерируем 2 паверапа масла
-            x = random.randint(0, MAP_WIDTH)
-            y = random.randint(0, MAP_HEIGHT)
-            self.powerups.append(PowerUp("oil", x, y))
-
-    def generate_special_powerups(self):
-        """Генерация всех особых паверапов."""
-        self.generate_speed_powerups()
-        self.generate_shield_powerups()
-        self.generate_oil_powerups()
+            self.powerups.append(PowerUp(t, x, y))
 
     def check_collision(self, player_hitbox):
         for obj in self.objects:
