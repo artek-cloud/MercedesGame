@@ -49,6 +49,15 @@ class MainMenu:
             self.volume_slider.update(pygame.mouse.get_pos())
             self.audio.set_volume(self.volume_slider.slider_pos / 200)
 
+def draw_speed(screen, speed):
+    """
+    Отображает текущую скорость игрока в левом верхнем углу экрана.
+    :param screen: Экран Pygame
+    :param speed: Текущая скорость игрока
+    """
+    font = pygame.font.Font(None, 36)
+    speed_text = font.render(f"Speed: {abs(int(speed))}", True, (0, 0, 0))
+    screen.blit(speed_text, (10, 10))  # Позиция в левом верхнем углу
 
 def input_name(screen):
     name = ""
