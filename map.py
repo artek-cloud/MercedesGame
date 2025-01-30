@@ -32,11 +32,7 @@ class GameMap:
             x = random.randint(0, MAP_WIDTH)
             y = random.randint(0, MAP_HEIGHT)
             pygame.draw.circle(self.image, (34, 139, 34), (x, y), 30)
-        # Препятствия
-        for _ in range(15):
-            x = random.randint(0, MAP_WIDTH)
-            y = random.randint(0, MAP_HEIGHT)
-            self.objects.append(GameObject(x, y, 30, 30))
+
 
     def generate_powerups(self):
         types = ["score", "speed", "shield", "oil"]
