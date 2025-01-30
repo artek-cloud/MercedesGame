@@ -15,7 +15,8 @@ class GameMap:
         self.objects = []
         self.powerups = []
         self.generate_objects()
-        self.generate_powerups()
+        self.generate_score_powerups()  # Генерация обычных паверапов "score"
+        self.generate_special_powerups()  # Генерация особых паверапов
 
     def generate_objects(self):
         # Дорожная разметка
