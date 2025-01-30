@@ -1,11 +1,12 @@
 # main.py
 import pygame
+import time
 from settings import *
 from camera import Camera
 from map import GameMap
 from player import Player
 from audio import AudioManager
-from ui import MainMenu, input_name
+from ui import *
 
 def main():
     pygame.init()
@@ -37,6 +38,8 @@ def main():
     # Ввод имени игрока
     player_name = input_name(screen)
     print(f"Игрок: {player_name}")
+
+    SelectCharacter(screen)
 
     running = True
     while running:

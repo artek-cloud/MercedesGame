@@ -1,12 +1,13 @@
 # ui.py
 import pygame
+import time
 from settings import *
 
 class VolumeSlider:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.slider_pos = 100  # Начальная позиция (громкость 50%)
+        self.slider_pos = 10  # Начальная позиция (громкость 50%)
         self.width = 200
         self.height = 20
 
@@ -20,7 +21,6 @@ class VolumeSlider:
         if self.x <= mouse_pos[0] <= self.x + self.width:
             self.slider_pos = mouse_pos[0] - self.x
             self.slider_pos = max(0, min(self.slider_pos, self.width))
-
 
 class MainMenu:
     def __init__(self, screen, audio_manager):
@@ -48,7 +48,24 @@ class MainMenu:
         if event.type == pygame.MOUSEBUTTONDOWN:
             self.volume_slider.update(pygame.mouse.get_pos())
             self.audio.set_volume(self.volume_slider.slider_pos / 200)
+        pygame.display.flip()
 
+def SelectCharacter(screen):
+    font = pygame.font.Font(None, 36)
+    characterActive = True
+    while characterActive:
+        screen.fill(BACKGROUND_COLOR)
+        # Текст запроса
+        prompt = font.render("Choose your fighter:", True, (0, 0, 0))
+        screen.blit(prompt, (SCREEN_WIDTH // 2 - prompt.get_width() // 2, SCREEN_HEIGHT // 2 - 50))
+        pygame.display.flip()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    characterActive = False
 
 def input_name(screen):
     name = ""
