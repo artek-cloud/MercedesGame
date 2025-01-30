@@ -52,16 +52,19 @@ def main():
         # Проверка столкновений
         if game_map.check_collision(player.hitbox):
             print("Столкновение с препятствием!")
-            player.speed = -player.speed * 0.5
+            player.speed *= -2  # Отталкивание игрока
+            audio.play_sound("shield")  # Звук при столкновении
+
+        # Проверка взаимодействия с паверапами
         powerup_type = game_map.check_powerup_collision(player.hitbox)
         if powerup_type:
             audio.play_sound(powerup_type)
             if powerup_type == "speed":
-                player.speed *= 1.5
+                player.speed *= 1.5  # Увеличение скорости на 50%
             elif powerup_type == "shield":
-                pass  # Логика щита
+                pass  # Логика щита (можно добавить позже)
             elif powerup_type == "oil":
-                pass  # Логика масла
+                pass  # Логика масла (можно добавить позже)
 
         # Отрисовка
         screen.fill(BACKGROUND_COLOR)
