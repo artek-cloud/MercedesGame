@@ -1,12 +1,8 @@
-# map.py
+# map.py (фрагмент кода)
 import pygame
 import random
 from settings import *
 from powerups import PowerUp
-
-class GameObject:
-    def __init__(self, x, y, width, height):
-        self.rect = pygame.Rect(x, y, width, height)
 
 class GameMap:
     def __init__(self):
@@ -33,9 +29,13 @@ class GameMap:
             x = random.randint(0, MAP_WIDTH)
             y = random.randint(0, MAP_HEIGHT)
             pygame.draw.circle(self.image, (34, 139, 34), (x, y), 30)
+        # Препятствия
+        for _ in range(15):
+            x = random.randint(0, MAP_WIDTH)
+            y = random.randint(0, MAP_HEIGHT)
+            self.objects.append(GameObject(x, y, 30, 30))
 
-
- def generate_score_powerups(self):
+    def generate_score_powerups(self):
         """Генерация обычных паверапов 'score'."""
         for _ in range(10):  # Обычные столбы с очками
             x = random.randint(0, MAP_WIDTH)
