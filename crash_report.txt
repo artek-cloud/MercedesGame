@@ -1,0 +1,65 @@
+--- Crash Report ---
+Timestamp: 2025-01-31 03:53:29
+Error: Traceback (most recent call last):
+  File "G:\Mercedes game\MercedesGame\main.py", line 79, in main
+    player.increase_max_speed(1.05)  # Увеличиваем скорость на 5% на 7 секунд
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\Mercedes game\MercedesGame\player.py", line 73, in increase_max_speed
+    self.speed_boost_timer = time.time() + duration  # Задаем таймер на 7 секунд
+                                           ^^^^^^^^
+NameError: name 'duration' is not defined
+
+------------------------------
+--- Crash Report ---
+Timestamp: 2025-01-31 03:58:17
+Error: Traceback (most recent call last):
+  File "G:\Mercedes game\MercedesGame\main.py", line 96, in main
+    x = random.randint(0, MAP_WIDTH)
+        ^^^^^^
+NameError: name 'random' is not defined. Did you forget to import 'random'
+
+------------------------------
+--- Crash Report ---
+Timestamp: 2025-01-31 04:00:32
+Error: Traceback (most recent call last):
+  File "G:\Mercedes game\MercedesGame\main.py", line 78, in main
+    player.increase_max_speed(1.5, 7)  # Увеличиваем скорость на 50% на 7 секунд
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Player.increase_max_speed() takes 2 positional arguments but 3 were given
+
+------------------------------
+--- Crash Report ---
+Timestamp: 2025-01-31 04:02:13
+Error: Traceback (most recent call last):
+  File "G:\Mercedes game\MercedesGame\main.py", line 80, in main
+    player.increase_max_speed(1.05, 7)  # Увеличиваем скорость на 5% на 7 секунд
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Player.increase_max_speed() takes 2 positional arguments but 3 were given
+
+------------------------------
+--- Crash Report ---
+Timestamp: 2025-01-31 04:06:15
+Error: Traceback (most recent call last):
+  File "G:\Mercedes game\MercedesGame\main.py", line 99, in main
+    game_map.powerups.append(PowerUp(powerup_type, x, y))
+                             ^^^^^^^
+NameError: name 'PowerUp' is not defined
+
+------------------------------
+--- Crash Report ---
+Timestamp: 2025-01-31 04:11:11
+Error: Traceback (most recent call last):
+  File "G:\Mercedes game\MercedesGame\main.py", line 99, in main
+    newpowerup = PowerUp(powerup_type, x, y)
+                 ^^^^^^^
+NameError: name 'PowerUp' is not defined
+
+------------------------------
+--- Crash Report ---
+Timestamp: 2025-01-31 17:45:36
+Error: Traceback (most recent call last):
+  File "G:\Mercedes game\MercedesGame\main.py", line 82, in main
+    player.increase_max_speed(1.05, 7)
+TypeError: Player.increase_max_speed() takes 2 positional arguments but 3 were given
+
+------------------------------

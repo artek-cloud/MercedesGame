@@ -4,14 +4,19 @@ import pygame
 class AudioManager:
     def __init__(self):
         pygame.mixer.init()
-        self.sounds = {
-            "score": pygame.mixer.Sound("resources/score.wav"),
-            "speed": pygame.mixer.Sound("resources/speed.wav"),
-            "shield": pygame.mixer.Sound("resources/shield.wav"),
-            "oil": pygame.mixer.Sound("resources/oil.wav")
-        }
+        self.sounds = {}
+        self._load_sounds()
         pygame.mixer.music.load("resources/background_music.mp3")
-        self.volume = 0.1
+        self.volume = 1.0
+
+    def _load_sounds(self):
+        sound_files = ["score", "speed", "shield", "oil"]
+        for name in sound_files:
+            try:
+                self.sounds[name] = pygame.mixer.Sound(f"resources/{name}.wav")
+            except FileNotFoundError:
+                print(f"Ошибка: файл {name}.wav не найден!")
+                self.sounds[name] = pygame.Surface((0, 0))
 
     def play_music(self):
         pygame.mixer.music.play(-1)

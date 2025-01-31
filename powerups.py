@@ -1,11 +1,9 @@
 # powerups.py
 import pygame
-import random
-from settings import *
 
 class PowerUp:
     def __init__(self, type, x, y):
-        self.type = type  # "score", "speed", "shield", "oil"
+        self.type = type
         self.x = x
         self.y = y
         self.rect = pygame.Rect(x, y, 40, 40)
@@ -13,10 +11,10 @@ class PowerUp:
 
     def _get_color(self):
         return {
-            "score": (255, 215, 0),    # Золотой
-            "speed": (255, 0, 0),      # Красный
-            "shield": (0, 0, 255),     # Синий
-            "oil": (0, 255, 0)         # Зеленый
+            "score": (255, 215, 0),
+            "speed": (255, 0, 0),
+            "shield": (0, 0, 255),
+            "oil": (0, 255, 0)
         }[self.type]
 
     def draw(self, screen, camera):
