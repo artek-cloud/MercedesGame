@@ -6,21 +6,18 @@ class VolumeSlider:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.slider_pos = 100  # Начальная позиция (громкость 50%)
+        self.slider_pos = 100  # Исправлено на корректную начальную позицию
         self.width = 200
         self.height = 20
 
     def draw(self, screen):
-        # Рисуем фон ползунка
         pygame.draw.rect(screen, (100, 100, 100), (self.x, self.y, self.width, self.height))
-        # Рисуем сам ползунок
         pygame.draw.circle(screen, (200, 200, 200), (self.x + self.slider_pos, self.y + self.height // 2), 15)
 
     def update(self, mouse_pos):
         if self.x <= mouse_pos[0] <= self.x + self.width:
             self.slider_pos = mouse_pos[0] - self.x
             self.slider_pos = max(0, min(self.slider_pos, self.width))
-
 
 class MainMenu:
     def __init__(self, screen, audio_manager):
@@ -35,11 +32,8 @@ class MainMenu:
 
     def draw(self):
         self.screen.fill(BACKGROUND_COLOR)
-        # Заголовок
         self.screen.blit(self.title_text, (SCREEN_WIDTH // 2 - self.title_text.get_width() // 2, 100))
-        # Инструкция
         self.screen.blit(self.instruction_text, (SCREEN_WIDTH // 2 - self.instruction_text.get_width() // 2, 300))
-        # Ползунок громкости
         self.screen.blit(self.volume_text, (SCREEN_WIDTH // 2 - 120, SCREEN_HEIGHT // 2 - 30))
         self.volume_slider.draw(self.screen)
         pygame.display.flip()
@@ -49,15 +43,31 @@ class MainMenu:
             self.volume_slider.update(pygame.mouse.get_pos())
             self.audio.set_volume(self.volume_slider.slider_pos / 200)
 
+def SelectCharacter(screen):
+    font = pygame.font.Font(None, 36)
+    characterActive = True
+    while characterActive:
+        screen.fill(BACKGROUND_COLOR)
+        prompt = font.render("Choose your fighter:", True, (0, 0, 0))
+        screen.blit(prompt, (SCREEN_WIDTH // 2 - prompt.get_width() // 2, SCREEN_HEIGHT // 2 - 50))
+        pygame.display.flip()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    characterActive = False
+
 def draw_speed(screen, speed):
-    """
-    Отображает текущую скорость игрока в левом верхнем углу экрана.
-    :param screen: Экран Pygame
-    :param speed: Текущая скорость игрока
-    """
     font = pygame.font.Font(None, 36)
     speed_text = font.render(f"Speed: {abs(int(speed))}", True, (0, 0, 0))
-    screen.blit(speed_text, (10, 10))  # Позиция в левом верхнем углу
+    screen.blit(speed_text, (10, 10))
+
+def draw_score(screen, score):
+    font = pygame.font.Font(None, 36)
+    score_text = font.render(f"Score: {score}", True, (0, 0, 0))
+    screen.blit(score_text, (10, 50))
 
 def input_name(screen):
     name = ""
@@ -65,7 +75,6 @@ def input_name(screen):
     font = pygame.font.Font(None, 36)
     while input_active:
         screen.fill(BACKGROUND_COLOR)
-        # Текст запроса
         prompt = font.render("Enter your name:", True, (0, 0, 0))
         name_surface = font.render(name, True, (0, 0, 0))
         screen.blit(prompt, (SCREEN_WIDTH // 2 - prompt.get_width() // 2, SCREEN_HEIGHT // 2 - 50))

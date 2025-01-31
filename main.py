@@ -1,15 +1,15 @@
 # main.py
 import pygame
 import time
-import traceback  # Для получения трассировки стека
+import traceback
 import random
 from settings import *
 from camera import Camera
 from map import GameMap
 from player import Player
 from audio import AudioManager
-from ui import MainMenu, input_name, draw_speed
-from crash_report import log_crash  # Импортируем функцию для записи краш-репортов
+from ui import MainMenu, input_name, draw_speed, draw_score, SelectCharacter
+from crash_report import log_crash
 from powerups import *
 
 def main():
@@ -44,15 +44,14 @@ def main():
         player_name = input_name(screen)
         print(f"Игрок: {player_name}")
 
-        # Параметры для генерации паверапов
-        POWERUP_SPAWN_INTERVAL = 10  # Интервал между попытками создания паверапов (в секундах)
-        MAX_POWERUPS = {
-            "score": 15,  # Максимальное количество паверапов "score"
-            "speed": 5,  # Максимальное количество паверапов "speed"
-            "shield": 2,  # Максимальное количество паверапов "shield"
-            "oil": 2      # Максимальное количество паверапов "oil"
-        }
-        last_powerup_spawn_time = time.time()  # Время последней попытки создания паверапов
+        # Выбор персонажа
+        SelectCharacter(screen)
+
+        # Параметры игры
+        POWERUP_SPAWN_INTERVAL = 10
+        MAX_POWERUPS = {"score": 15, "speed": 5, "shield": 2, "oil": 2}
+        last_powerup_spawn_time = time.time()
+        player_score = 0
 
         running = True
         while running:
@@ -65,61 +64,59 @@ def main():
             player.update(keys)
             camera.update(player.rect)
 
-            # Проверка столкновений
+            # Столкновение с препятствиями
             if game_map.check_collision(player.hitbox):
-                print("Столкновение с препятствием!")
-                player.speed *= -5  # Изменяем скорость на -5
-                audio.play_sound("shield")  # Звук при столкновении
+                if not player.shield_active:
+                    print("Столкновение!")
+                    player.speed *= -5
+                    audio.play_sound("shield")
 
-            # Проверка взаимодействия с паверапами
+            # Взаимодействие с бонусами
             powerup_type = game_map.check_powerup_collision(player.hitbox)
             if powerup_type:
                 audio.play_sound(powerup_type)
                 if powerup_type == "speed":
-                    player.increase_max_speed(1.5)  # Увеличиваем скорость на 50% на 7 секунд
+                    player.increase_max_speed(1.5, 7)
                 elif powerup_type == "score":
-                    player.increase_max_speed(1.05)  # Увеличиваем скорость на 5% на 7 секунд
+                    player_score += 100
+                    player.increase_max_speed(1.05, 7)
                 elif powerup_type == "shield":
-                    pass  # Логика щита
+                    player.activate_shield(10)
                 elif powerup_type == "oil":
-                    pass  # Логика масла
+                    game_map.spawn_oil_spill()
 
-            # Генерация новых паверапов
+            # Генерация бонусов
             current_time = time.time()
             if current_time - last_powerup_spawn_time > POWERUP_SPAWN_INTERVAL:
-                # Подсчет текущего количества каждого типа паверапов
                 powerup_counts = {"score": 0, "speed": 0, "shield": 0, "oil": 0}
                 for p in game_map.powerups:
                     powerup_counts[p.type] += 1
 
-                # Генерация новых паверапов, если их меньше максимального количества
                 for powerup_type, max_count in MAX_POWERUPS.items():
                     if powerup_counts[powerup_type] < max_count:
                         x = random.randint(0, MAP_WIDTH)
-                        y = random.randint(0, MAP_HEIGHT)                     
+                        y = random.randint(0, MAP_HEIGHT)
                         game_map.powerups.append(PowerUp(powerup_type, x, y))
+                        break
 
-                last_powerup_spawn_time = current_time  # Обновляем время последней попытки
+                last_powerup_spawn_time = current_time
 
             # Отрисовка
             screen.fill(BACKGROUND_COLOR)
             game_map.draw(screen, camera)
             player.draw(screen, camera)
-
-            # Отображение скорости
             draw_speed(screen, player.speed)
+            draw_score(screen, player_score)
 
             pygame.display.flip()
             clock.tick(60)
 
         pygame.quit()
     except Exception as e:
-        # Логируем ошибку
-        error_message = traceback.format_exc()  # Получаем полную трассировку стека
+        error_message = traceback.format_exc()
         log_crash(error_message)
-        print("Произошла ошибка! Информация записана в crash_report.txt.")
+        print("Ошибка! Подробности в crash_report.txt.")
         pygame.quit()
-
 
 if __name__ == "__main__":
     main()
