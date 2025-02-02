@@ -44,13 +44,13 @@ def main():
         player_name = input_name(screen)
         print(f"Игрок: {player_name}")
         
-    SelectCharacter(screen)
+        SelectCharacter(screen)
 
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
+        #running = True
+        #while running:
+        #    for event in pygame.event.get():
+        #        if event.type == pygame.QUIT:
+        #            running = False
 
         # Параметры игры
         POWERUP_SPAWN_INTERVAL = 10

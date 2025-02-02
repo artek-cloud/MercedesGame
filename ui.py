@@ -43,7 +43,6 @@ class MainMenu:
         if event.type == pygame.MOUSEBUTTONDOWN:
             self.volume_slider.update(pygame.mouse.get_pos())
             self.audio.set_volume(self.volume_slider.slider_pos / 200)
-        pygame.display.flip()
 
 def SelectCharacter(screen):
     font = pygame.font.Font(None, 36)
