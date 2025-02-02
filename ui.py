@@ -12,9 +12,7 @@ class VolumeSlider:
         self.height = 20
 
     def draw(self, screen):
-        # Рисуем фон ползунка
         pygame.draw.rect(screen, (100, 100, 100), (self.x, self.y, self.width, self.height))
-        # Рисуем сам ползунок
         pygame.draw.circle(screen, (200, 200, 200), (self.x + self.slider_pos, self.y + self.height // 2), 15)
 
     def update(self, mouse_pos):
@@ -35,11 +33,8 @@ class MainMenu:
 
     def draw(self):
         self.screen.fill(BACKGROUND_COLOR)
-        # Заголовок
         self.screen.blit(self.title_text, (SCREEN_WIDTH // 2 - self.title_text.get_width() // 2, 100))
-        # Инструкция
         self.screen.blit(self.instruction_text, (SCREEN_WIDTH // 2 - self.instruction_text.get_width() // 2, 300))
-        # Ползунок громкости
         self.screen.blit(self.volume_text, (SCREEN_WIDTH // 2 - 120, SCREEN_HEIGHT // 2 - 30))
         self.volume_slider.draw(self.screen)
         pygame.display.flip()
@@ -67,13 +62,22 @@ def SelectCharacter(screen):
                 if event.key == pygame.K_RETURN:
                     characterActive = False
 
+def draw_speed(screen, speed):
+    font = pygame.font.Font(None, 36)
+    speed_text = font.render(f"Speed: {abs(int(speed))}", True, (0, 0, 0))
+    screen.blit(speed_text, (10, 10))
+
+def draw_score(screen, score):
+    font = pygame.font.Font(None, 36)
+    score_text = font.render(f"Score: {score}", True, (0, 0, 0))
+    screen.blit(score_text, (10, 50))
+
 def input_name(screen):
     name = ""
     input_active = True
     font = pygame.font.Font(None, 36)
     while input_active:
         screen.fill(BACKGROUND_COLOR)
-        # Текст запроса
         prompt = font.render("Enter your name:", True, (0, 0, 0))
         name_surface = font.render(name, True, (0, 0, 0))
         screen.blit(prompt, (SCREEN_WIDTH // 2 - prompt.get_width() // 2, SCREEN_HEIGHT // 2 - 50))
