@@ -8,7 +8,7 @@ from camera import Camera
 from map import GameMap
 from player import Player
 from audio import AudioManager
-from ui import MainMenu, input_name, draw_speed, draw_score, SelectCharacter
+from ui import *
 from crash_report import log_crash
 from powerups import *
 
@@ -43,9 +43,14 @@ def main():
         # Ввод имени игрока
         player_name = input_name(screen)
         print(f"Игрок: {player_name}")
+        
+    SelectCharacter(screen)
 
-        # Выбор персонажа
-        SelectCharacter(screen)
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
 
         # Параметры игры
         POWERUP_SPAWN_INTERVAL = 10

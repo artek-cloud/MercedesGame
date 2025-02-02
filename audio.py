@@ -7,7 +7,7 @@ class AudioManager:
         self.sounds = {}
         self._load_sounds()
         pygame.mixer.music.load("resources/background_music.mp3")
-        self.volume = 1.0
+        self.volume = 0.1
 
     def _load_sounds(self):
         sound_files = ["score", "speed", "shield", "oil"]
